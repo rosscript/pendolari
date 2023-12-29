@@ -462,7 +462,7 @@ async def update_user_role(username, new_role):
 async def get_premium_users():
     """Restituisce una lista di utenti premium con username e data di scadenza."""
     async with aiosqlite.connect(DB_FILE) as db:
-        cursor = await db.execute("SELECT username, premium_expiration FROM users WHERE user_type = 'premium'")
+        cursor = await db.execute("SELECT username, premium_expiration FROM users WHERE user_type IN ('premium', 'founder', 'admin')")
         return await cursor.fetchall()
 
 async def update_premium_status(username, days=None):
@@ -491,7 +491,7 @@ async def get_all_users():
 async def get_standard_users():
     """Restituisce gli ID degli utenti standard."""
     async with aiosqlite.connect(DB_FILE) as db:
-        cursor = await db.execute("SELECT user_id FROM users WHERE user_type = 'standard'")
+        cursor = await db.execute("SELECT username, premium_expiration FROM users WHERE user_type IN ('standard', 'founder', 'admin')")
         return [row[0] for row in await cursor.fetchall()]
 
 async def get_user_type(user_id):
