@@ -261,17 +261,18 @@ async def manage_admins(callback_query: types.CallbackQuery, state: FSMContext):
 
     # Costruisci e invia il messaggio con l'elenco degli amministratori
     response = "👑 Founder & Dev:\n"
-    founder_listed = False
+    admin_list = []  # Creare una lista per gli admin diversi dal fondatore
     for admin in admins:
         username, user_type = admin  # Destrutturazione della tupla
         if user_type == 'founder':
             response += f"-    @{username}\n"
-            founder_listed = True
-        elif founder_listed and user_type != 'founder':
-            response += "👤 Admins:\n" + f"-    @{username}\n"
-            founder_listed = False  # Per evitare di ripetere "Admins:" per ogni admin
-        elif user_type != 'founder':
-            response += f"@{username}\n"
+        else:
+            admin_list.append(username)
+
+    if admin_list:
+        response += "👤 Admins:\n"
+        for admin in admin_list:
+            response += f"-    @{admin}\n"
 
     response += "\nInviando un @username presente nell'elenco, rimuoverai l'admin. Se non presente, renderai l'utente un admin."
 
