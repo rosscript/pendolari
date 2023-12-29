@@ -437,7 +437,7 @@ async def send_broadcast(callback_query: types.CallbackQuery, state: FSMContext)
     if audience == "broadcast_all":
         users = await get_all_users()
     elif audience == "broadcast_premium":
-        users = await get_premium_users()
+        users = await get_premium_users_broadcast()
     elif audience == "broadcast_standard":
         users = await get_standard_users()
 

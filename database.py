@@ -466,6 +466,11 @@ async def get_premium_users():
         users = await cursor.fetchall()
         return [user[0] for user in users]
 
+async def get_premium_users_broadcast():
+    """Restituisce una lista di utenti premium con username e data di scadenza."""
+    async with aiosqlite.connect(DB_FILE) as db:
+        cursor = await db.execute("SELECT username, premium_expiration FROM users WHERE user_type IN ('premium', 'founder', 'admin')")
+        return await cursor.fetchall()
 
 async def update_premium_status(username, days=None):
     """Aggiorna lo status premium di un utente. Rimuovi premium se days è None, altrimenti aggiungi giorni."""
