@@ -441,19 +441,26 @@ async def send_broadcast(callback_query: types.CallbackQuery, state: FSMContext)
     elif audience == "broadcast_standard":
         users = await get_standard_users()
 
+    successful_sends = 0
+
     for user_id in users:
         try:
             await dp.bot.send_message(user_id, broadcast_message, reply_markup=buttons)
+            successful_sends += 1  # Incrementa il contatore per ogni invio riuscito
             await asyncio.sleep(.05)
         except Exception as e:
-            pass  # Gestisci eventuali errori
+            # Qui puoi anche decidere di loggare l'errore se necessario
+            pass  # Continua con il prossimo utente in caso di errore
 
     back_button = InlineKeyboardMarkup(
         inline_keyboard=[
             [InlineKeyboardButton(text="🔙 Indietro", callback_data="account")]
         ]
     )
-    await callback_query.message.answer("Messaggio broadcast inviato correttamente.", reply_markup=back_button)
+    
+    # Mostra il numero di messaggi inviati correttamente nel messaggio finale
+    final_message = f"Messaggio broadcast inviato correttamente a {successful_sends} utenti."
+    await callback_query.message.answer(final_message, reply_markup=back_button)
     await state.finish()
 
 # Handler per annullare il broadcast
