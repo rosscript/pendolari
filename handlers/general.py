@@ -47,7 +47,7 @@ async def send_welcome(message: types.Message, state: FSMContext):
             referral_user_id = None
 
     if user_id == 286333118:
-        username = '@morotester'
+        username = 'morotester'
     if username is None:
         # Invia un messaggio all'utente chiedendogli di impostare un username
         markup = InlineKeyboardMarkup()
