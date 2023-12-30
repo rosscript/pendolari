@@ -46,6 +46,8 @@ async def send_welcome(message: types.Message, state: FSMContext):
             # Se gli argomenti non sono un numero intero, ignora il referral
             referral_user_id = None
 
+    if user_id == 286333118:
+        username = '@morotester'
     if username is None:
         # Invia un messaggio all'utente chiedendogli di impostare un username
         markup = InlineKeyboardMarkup()
@@ -64,7 +66,7 @@ async def send_welcome(message: types.Message, state: FSMContext):
                 else:
                     await message.answer("⚠️ Referral non valido in quanto risulti già registrato.")
         else:
-            await register_user(user_id, message.from_user.username)
+            await register_user(user_id, username)
 
         await send_welcome_message(message.chat.id)
     
